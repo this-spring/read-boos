@@ -47,5 +47,7 @@ PDF
 
 ## Webassmebly入门课（完成）
 于航
-PayPal 高级软件工程师
+PayPal 高级软件工程师  
+笔记地址: <a href="https://github.com/this-spring/read-boos/blob/master/2020/Webassmebly/webassembly%E5%85%A5%E9%97%A8.md">跳转</a>
+
 
