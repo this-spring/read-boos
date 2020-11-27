@@ -118,3 +118,118 @@ MSG：最高有效位
 - 5. UTF-8 字符串编码    
 
 介绍了字符串，数字，浮点数等编码方式
+
+### 4. 如何让一个 WebAssembly 二进制模块的内容易于解读？  
+
+wat：WAT 的全称 “WebAssembly Text Format”，我们一般称其为 “WebAssembly 可读文本格式”。它是一种与 Wasm 字节码格式完全等价，可用于编码 Wasm 模块及其相关定义的文本格式。  
+
+这种格式使用 “S- 表达式” 的形式来表达 Wasm 模块及其定义，将组成模块各部分的字节码用一种更加线性的、可读的方式进行表达。这种表达式可以被wasm编译工具直接使用。
+
+S-表达式  
+
+例如，lisp语言  
+
+```
+(print 
+ (* 2 (+ 3 4))
+)
+```  
+这就是一种s-表达式  
+
+wasm的wat表达式：  
+
+```
+
+(func $factorial (; 0 ;) (param $0 i32) (result i32)
+ (local $1 i32)
+ (local $2 i32)
+ (block $label$0
+  (br_if $label$0
+   (i32.eqz
+    (get_local $0)
+   )
+  )
+  (set_local $2
+   (i32.const 1)
+  )
+  (loop $label$1
+   (set_local $2
+    (i32.mul
+     (get_local $0)
+     (get_local $2)
+    )
+   )
+   (set_local $0
+    (tee_local $1
+     (i32.add
+      (get_local $0)
+      (i32.const -1)
+     )
+    )
+   )
+   (br_if $label$1
+    (get_local $1)
+   )
+  )
+  (return
+   (get_local $2)
+  )
+ )
+ (i32.const 1)
+)
+```
+
+flat-wat: 为了能够让你更加直观地看清楚从源代码、Wasm 字节码再到 WAT 三者之间的对应关系，首先我们要做的第一件事就是将对应的 WAT 代码 “拍平（flatten）”，将其变成 “Flat-WAT”。 
+wat->flat-wat: “拍平”的过程十分简单。正常在通过 “S- 表达式” 形式表达的 WAT 代码中，我们通过“嵌套”与“小括号”的方式指定了各个表达式的求值顺序。而 “拍平” 的过程就是将这些嵌套以及括号结构去掉，以“从上到下”的先后顺序，来表达整个程序的执行流程。
+
+```
+
+(func $factorial (param $0 i32) (result i32)
+ block $label$0
+  local.get $0
+  i32.eqz
+  br_if $label$0
+  local.get $0
+  i32.const 255
+  i32.add
+  i32.const 255
+  i32.and
+  call $factorial
+  local.get $0
+  i32.mul
+  i32.const 255
+  i32.and
+  return
+ end
+ i32.const 1)
+```
+
+wat工具：  
+
+- 1. wasm2wat
+- 2. wat2wasm
+- 3. wat-desugar：wat->flat-wat
+
+### 5. WASI：你听说过 WebAssembly 操作系统接口吗？  
+
+wasi: WASI（WebAssembly System Interface，Wasm 操作系统接口）  
+
+本节主要介绍out-of-web环境下的wasm+wasi
+
+安全模型  
+- 1. 分级保护域
+- 2. Capability-based Security  
+
+分级保护域  
+基于“分级保护域”实现的安全模型，被广泛应用于类 Unix 的各类操作系统中，比如下图所示的操作系统 Ring0 层和 Ring3 层（Ring1 / Ring2 一般不会被使用）便是“分级保护域”的一种具体实现形式。  
+
+在传统意义上，Ring0 层拥有着最高权限，一般用于内核模式；而 Ring3 层的权限则会被稍加限制，一般用于运行用户程序。当一个运行在 Ring3 层的用户程序，试图去调用只有 Ring0 层进程才有权限使用的指令时，操作系统会阻止调用。这就是“分级保护域”的大致概念。 
+
+Capability-based Security  
+在具有 capability 概念的操作系统中，只要用户程序拥有了这个 capability，那它就拥有足够的权限去访问对应的资源。从理论上来讲，基于 Capability-based Security 的操作系统，甚至不需要如“权限控制列表（ACL）”这类的传统权限控制机制。
+
+系统调用（System Call）  
+
+WebAssembly 操作系统接口（WASI）  
+
+WASI 在 Wasm 字节码与虚拟机之间，增加了一层“系统调用抽象层”。比如对于在 C/C++ 源码中使用的 fopen 函数，当我们将这部分源代码与专为 WASI 实现的 C 标准库 “wasi-libc” 进行编译时，源码中对 fopen 的函数调用过程，其内部会间接通过调用名为 “__wasi_path_open” 的函数来实现。这个 __wasi_path_open函数，便是对实际系统调用的一个抽象。
