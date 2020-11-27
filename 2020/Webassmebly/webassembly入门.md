@@ -233,3 +233,19 @@ Capability-based Security
 WebAssembly 操作系统接口（WASI）  
 
 WASI 在 Wasm 字节码与虚拟机之间，增加了一层“系统调用抽象层”。比如对于在 C/C++ 源码中使用的 fopen 函数，当我们将这部分源代码与专为 WASI 实现的 C 标准库 “wasi-libc” 进行编译时，源码中对 fopen 的函数调用过程，其内部会间接通过调用名为 “__wasi_path_open” 的函数来实现。这个 __wasi_path_open函数，便是对实际系统调用的一个抽象。
+
+### 5. API：在 WebAssembly MVP 标准下你能做到哪些事？  
+
+主要讲解wasm调用，一般胶水代码替我们做好了这些事  
+
+## 三 应用篇 
+
+### 1. WebAssembly 能够为 Web 前端框架赋能吗？  
+
+Rust 语言基于 Yew 框架  
+Ember.js  
+
+跳过  
+
+### 2. WebAssembly 在物联网、多媒体与云技术方面有哪些创新实践？
+
