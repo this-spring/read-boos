@@ -15,6 +15,10 @@ Wasm 采用的计算模型和体系结构；
 Wasm 模块的内部结构；  
 Wasm 相关的实战和应用。  
 
+目录:  
+
+<img src="./imgs/wasm.png"/>
+
 ### 2  基础篇：学习此课程你需要了解哪些基础知识？  
 跳过  
 
@@ -87,6 +91,8 @@ section
 从整体上来看，同 **ELF 二进制文件类似**，Wasm 模块的二进制数据也是以 Section 的形式被安排和存放的。Section 翻译成中文是“段”，但为了保证讲解的严谨性，以及你在理解上的准确性，后文我会直接使用它的英文名词 Section。  
 
 对于 Section，你可以直接把它想象成，一个个**具有特定功能的一簇二进制数据**。通常，为了能够更好地组织模块内的二进制数据，我们需要把具有相同功能，或者相关联的那部分二进制数据摆放到一起。而这些被摆放在一起，具有一定相关性的数据，便组成了一个个 Section。  
+
+<img src="./imgs/section.png">
 
 换句话说，每一个不同的 Section 都描述了关于这个 Wasm 模块的一部分信息。而模块内的所有 Section 放在一起，便描述了整个模块在二进制层面的组成结构。在一个标准的 Wasm 模块内，以现阶段的 MVP 标准为参考，可用的 Section 有如下几种。
 - 1. Type Section
@@ -204,6 +210,10 @@ wat->flat-wat: “拍平”的过程十分简单。正常在通过 “S- 表达�
  i32.const 1)
 ```
 
+对应关系:  
+
+<img src="./imgs/wat.png"/>
+
 wat工具：  
 
 - 1. wasm2wat
@@ -221,7 +231,9 @@ wasi: WASI（WebAssembly System Interface，Wasm 操作系统接口）
 - 2. Capability-based Security  
 
 分级保护域  
-基于“分级保护域”实现的安全模型，被广泛应用于类 Unix 的各类操作系统中，比如下图所示的操作系统 Ring0 层和 Ring3 层（Ring1 / Ring2 一般不会被使用）便是“分级保护域”的一种具体实现形式。  
+基于“分级保护域”实现的安全模型，被广泛应用于类 Unix 的各类操作系统中，比如下图所示的操作系统 Ring0 层和 Ring3 层（Ring1 / Ring2 一般不会被使用）便是“分级保护域”的一种具体实现形式。 
+
+<img src="./imgs/kernal.png"/>
 
 在传统意义上，Ring0 层拥有着最高权限，一般用于内核模式；而 Ring3 层的权限则会被稍加限制，一般用于运行用户程序。当一个运行在 Ring3 层的用户程序，试图去调用只有 Ring0 层进程才有权限使用的指令时，操作系统会阻止调用。这就是“分级保护域”的大致概念。 
 
@@ -230,9 +242,15 @@ Capability-based Security
 
 系统调用（System Call）  
 
+<img src="./imgs/normal-sys.png">
+
 WebAssembly 操作系统接口（WASI）  
 
-WASI 在 Wasm 字节码与虚拟机之间，增加了一层“系统调用抽象层”。比如对于在 C/C++ 源码中使用的 fopen 函数，当我们将这部分源代码与专为 WASI 实现的 C 标准库 “wasi-libc” 进行编译时，源码中对 fopen 的函数调用过程，其内部会间接通过调用名为 “__wasi_path_open” 的函数来实现。这个 __wasi_path_open函数，便是对实际系统调用的一个抽象。
+<img src="./imgs/wasi-sys,.png">
+
+WASI 在 Wasm 字节码与虚拟机之间，增加了一层“系统调用抽象层”。比如对于在 C/C++ 源码中使用的 fopen 函数，当我们将这部分源代码与专为 WASI 实现的 C 标准库 “wasi-libc” 进行编译时，源码中对 fopen 的函数调用过程，其内部会间接通过调用名为 “__wasi_path_open” 的函数来实现。这个 __wasi_path_open函数，便是对实际系统调用的一个抽象。  
+
+<img src="./imgs/wasi-core.png"/>
 
 ### 5. API：在 WebAssembly MVP 标准下你能做到哪些事？  
 
@@ -242,10 +260,44 @@ WASI 在 Wasm 字节码与虚拟机之间，增加了一层“系统调用抽象
 
 ### 1. WebAssembly 能够为 Web 前端框架赋能吗？  
 
-Rust 语言基于 Yew 框架  
+Rust语言： Yew 框架  
 Ember.js  
 
 跳过  
 
 ### 2. WebAssembly 在物联网、多媒体与云技术方面有哪些创新实践？
 
+统一的编程接口  
+
+嵌入式开发一开始只能c/c++或者汇编进行开发，wasm和wasi提供了一种新的高级语言js，lua运行在IoT上的方式。结构设计如下：  
+
+<img src="./imgs/iot.png"/>
+
+微内核 - Unikernel  
+
+传统的内核大而全，实际上我们在特定场景下，不需要那么多功能，是否可以只把整个嵌入式硬件需要使用的内核底层组件单独提取出来，使其成为一个面向某一类特定功能或应用的专有内核呢？答案是当然可以，这就是“微内核”的概念。  
+
+相较于传统的类 Unix 操作系统内核（一般称之为宏内核），微内核有着许多的优势，比如：更快的启动速度、更小的 ROM 体积，以及更高的硬件资源使用率。 Unikraft 便是这样一款可以用来制作微内核的系统工具。  
+
+相较于其他基于 JavaScript 等高级编程语言运行时（比如 V8）构建的微内核而言，基于 Wasm 的微内核将有着更高的程序执行效率、更少的硬件资源占用率，以及更快的操作系统冷启动速度。这都是源自于 Wasm 本身作为一种 V-ISA 所带来的优势。  
+架构：  
+<img src="./imgs/minicore.ong"/>  
+
+多媒体（Multimedia）  
+
+音视频编解码(openh264.h, aac.h, opus.h....)  
+
+<a href="https://github.com/brion/ogv.js">ogv.js</a>  值得借鉴播放器架构设计以及使用wasm在音视频领域。  
+
+WXInlinePlayer  
+
+实现AudioContext和Canvas播放音频和视频
+
+
+Embly  
+
+Embly 是一个基于 Wasm 的 Severless 框架  
+
+Krustlet  
+
+Kubernetes 是目前云原生领域中，最常用的一种容器编排引擎。Kubernetes 由 Google 开源，通过它我们可以方便地管理云平台上众多物理主机中运行的容器化应用。Kubernetes 使容器化应用的部署和管理变得更加简单和高效。
