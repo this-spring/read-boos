@@ -281,7 +281,7 @@ Ember.js
 
 相较于其他基于 JavaScript 等高级编程语言运行时（比如 V8）构建的微内核而言，基于 Wasm 的微内核将有着更高的程序执行效率、更少的硬件资源占用率，以及更快的操作系统冷启动速度。这都是源自于 Wasm 本身作为一种 V-ISA 所带来的优势。  
 架构：  
-<img src="./imgs/minicore.ong"/>  
+<img src="./imgs/minicore.png"/>  
 
 多媒体（Multimedia）  
 
@@ -290,6 +290,8 @@ Ember.js
 <a href="https://github.com/brion/ogv.js">ogv.js</a>  值得借鉴播放器架构设计以及使用wasm在音视频领域。  
 
 WXInlinePlayer  
+
+<a href="https://github.com/this-spring/WXInlinePlayer">WXInlinePlayer</a>
 
 实现AudioContext和Canvas播放音频和视频
 
@@ -300,4 +302,60 @@ Embly 是一个基于 Wasm 的 Severless 框架
 
 Krustlet  
 
-Kubernetes 是目前云原生领域中，最常用的一种容器编排引擎。Kubernetes 由 Google 开源，通过它我们可以方便地管理云平台上众多物理主机中运行的容器化应用。Kubernetes 使容器化应用的部署和管理变得更加简单和高效。
+Kubernetes 是目前云原生领域中，最常用的一种容器编排引擎。Kubernetes 由 Google 开源，通过它我们可以方便地管理云平台上众多物理主机中运行的容器化应用。Kubernetes 使容器化应用的部署和管理变得更加简单和高效。  
+
+### 3. 有哪些优秀的 WebAssembly 编译器与运行时？  
+
+虚拟机运行时(Wasm 运行时（虚拟机）、Wasm 运行时组件（实现）以及 Wasm 语言相关的工具。)  
+
+Wasmtime  
+
+除此之外，Wasmtime 还支持部分的 WASI 系统接口以及 Wasm Post-MVP 提案，以及对于诸如 C 和 Python 等语言的运行时绑定。这样你便可以在这些语言的代码中，直接使用 Wasmtime 所提供的能力。关于它的更多信息可以在这里查看。<a href="https://wasmtime.dev/">wasmtime</a>
+
+
+WAMR  
+
+WAMR 支持多种 Wasm 字节码的运行时“翻译”模式，比如 JIT 模式、AOT 模式以及解释器模式。其中在解释器模式下，整个运行时的大小仅有 85KB。在 AOT 模式下，仅有 50KB。不仅如此，它可以在将近 100 微秒的时间内启动应用，并在最小 100KB 的内存资源下，便可以启动一个 Wasm 实例。
+
+<a href="https://github.com/bytecodealliance/wasm-micro-runtime">wamr</a>  
+
+Wasmer  
+
+不同于 Wasmtime 与 WAMR，Wasmer 基于 Rust 编写，它在支持 Wasm 核心标准、部分 WASI 系统接口以及部分 Wasm Post-MVP 标准的基础之上，还同时提供了对多达数十种编程语言的 Wasm 运行时绑定支持。这意味着，你可以在其他编程语言中使用 Wasmer 的能力来解析和执行 Wasm 字节码。
+
+wasmer有一个很有趣的尝试， Wasmer 同时提供和维护 Wasm 包管理平台 —— Wapm。通过这个平台，你可以发布新的或直接使用已有的 Wasm 包。这些包都借助于 WASI 抽象操作系统接口，提供了与本地应用相同的系统资源访问能力。
+
+<a href="https://wasmer.io/">wasmer</a>  
+
+### 4. LLVM：如何将自定义的语言编译到 WebAssembly？  
+
+跳过  
+
+### 5. 有哪些正在行进中的 WebAssembly Post-MVP 提案？  
+
+多线程与原子操作   
+<img src="./imgs/mul-worker.png"/>
+
+SIMD   
+
+Single Instruction, Multiple Data：单指令多数据（一条指令同时操作多条数据）
+
+<img src="./imgs/simd.png"/>
+
+Wasm64  
+
+使用 32 位长度的“偏移地址”，来访问 Wasm 模块线性内存中某个位置上的数据。最大使用内存是2的32次方，也就是4G，wasm64增加了使用内存大小。  
+
+Wasm ES Module  
+
+例子:  
+
+```
+import { add } from "./util.wasm";
+console.log(add(1, 2)); // 3;
+```  
+
+Interface Type  
+
+该提案通过在宿主环境与 Wasm 模块之间添加“接口适配层”，来满足从 Wasm 模块的“低层次”数据类型，到外界宿主环境“高层次”数据类型之间的相互转换过程。借助于这个提案，Wasm 模块与宿主环境之间的可交换数据类型将会变得更加丰富，同时数据的交换成本也会变得更低。  
+
