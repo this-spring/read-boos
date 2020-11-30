@@ -359,3 +359,56 @@ Interface Type
 
 该提案通过在宿主环境与 Wasm 模块之间添加“接口适配层”，来满足从 Wasm 模块的“低层次”数据类型，到外界宿主环境“高层次”数据类型之间的相互转换过程。借助于这个提案，Wasm 模块与宿主环境之间的可交换数据类型将会变得更加丰富，同时数据的交换成本也会变得更低。  
 
+## 四 实战篇  
+
+###  1-4  
+跳过  
+
+### 5 如何应用 WASI 及其相关生态？  
+
+<a href="https://github.com/bytecodealliance/wasmtime/releases">安装wasmtime</a>  
+
+<a href="https://github.com/bytecodealliance/wasmtime/releases">安装wasi-sdk</a>    
+
+可以直接在github的release中去下载  
+
+编写代码  
+
+```
+#include <stdio.h>
+#define BUF_SIZE 1024
+
+int main(int argc, char **argv) {
+  size_t counter = 0;
+  char buf[BUF_SIZE];
+  int c;
+  while ((c = getchar()) != '\n') {
+    buf[counter++] = c;
+  }
+  if (counter > 0) {
+    printf("The input content is: %s\n", buf);
+    // write content to local file.
+    FILE* fd;
+    if ((fd = fopen("wasi-static.txt", "w"))) {
+      fwrite(buf, sizeof(char), counter, fd);
+    } else {
+      perror("Open static file failed!");      
+    }
+  }
+  return 0;
+}
+```  
+
+编译成wasm: 调用build-wasi.sh   
+运行wasm：调用run-wasi.sh  
+
+## 五  结尾  
+
+看了于大的wasm感觉自己对于编译器以及语言的认识又多了很多，才疏学浅，为了自己忘记只能做点笔记。最后写上每个人都会遇到的问题来作为结尾吧：  
+
+老师你好，我是一名前端开发，现在感觉很迷茫，前端技术没有做到专精，杂七杂八的东西倒是接触了不少，有种什么都想学，却又能力不够的感觉。我是不是应该在前端领域让自己沉下去或者在某个细分领域钻研下去？  
+
+这个问题的答案也正如我刚刚讲的那样，技术体系下的 T 字型人才是一种最理想的状态。但现实的情况是，我们总是会处在一个交叉路口，往左走是回归原始和基础，往右走是各类新奇的事物。如果选择往左走就会被时代发展落下，而选择往右走却又仿佛会丢失原本最重要的东西。对我而言，我可能会选择往左走，当然这只是我个人的答案，仅供你的参考。其实对于大部分的新技术来说，你会发现它们早在几年或者十几年前就已经有了类似方案，无非是应用的方式和场景不太相同而已，而技术的本质并没有任何变化。就拿 ASM.js 和 Wasm 为例，这两种技术无非都是想通过减少程序运行时的类型判断，来提升代码的执行性能。只是前者通过 Annotation 的方式来实现，后者则是创造了一种新的 V-ISA 来实现，但本质上这两种方式并不新奇，新奇的点只是它们被应用在了 Web 浏览器中。包括我们之前介绍的 WASI 的 Capability-based Security 安全模型，也是早在十几年前就已经出现了，只是没有人以 WASI 这种方式来应用而已。说了这么多，我想表达的意思就是说：“在互联网技术体系中，创新性技术大多都是在基础性理论之上构建而来”。而这就意味着，当你把基础打牢后，对于新技术的理解会变得更加容易，甚至你自己会有着更加创新的想法。  
+
+感谢自己，感谢于大，看完做完笔记颇有收获。  
+
