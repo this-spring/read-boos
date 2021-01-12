@@ -1,0 +1,26 @@
+<!--
+ * @Author: xiuquanxu
+ * @Company: kaochong
+ * @Date: 2021-01-12 18:38:24
+ * @LastEditors: xiuquanxu
+ * @LastEditTime: 2021-01-12 20:20:45
+-->
+<html>
+    <meta charset="utf-8">
+    <body onload="main()">
+        <canvas width="400" height="400" id="webgl">
+            not support canvas
+        </canvas>
+        <br/>
+        <p>使用缓冲区对象</p>
+        <p>
+            缓存去对象是webgl系统中一块存储区，你可以在缓存区对象中保存
+            想要绘制的所有顶点数据。然后一次性写入向顶点着色器中传入多个顶点的attribute的变量数据
+        </p>
+        <img src="../img/6.jpg" alt="">
+    </body>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/webgl-debug.js"></script>
+    <script src="../lib/cuon-utils.js"></script>
+    <script src="./MultiPoint.js"></script>
+</html>

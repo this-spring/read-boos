@@ -3,17 +3,17 @@
  * @Company: kaochong
  * @Date: 2021-01-11 12:13:54
  * @LastEditors: xiuquanxu
- * @LastEditTime: 2021-01-11 14:07:54
+ * @LastEditTime: 2021-01-12 18:31:44
 -->
 ## 学习webgl很简单  
 webgl技术继承自免费开源的opengl技术，可以说webgl就是web端的opengl。  
 
 ## webgl起源  
-<img src="./img/1.jpg">  
+<img src="../img/1.jpg">  
 
 openes是基着色器语言（GLSL）  
 
-<img src="./img/2.jpg"/>  
+<img src="../img/2.jpg"/>  
 
 浏览器底层也是用opengl或者opengl es  
 
