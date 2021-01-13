@@ -1,0 +1,26 @@
+<!--
+ * @Author: xiuquanxu
+ * @Company: kaochong
+ * @Date: 2021-01-13 13:05:57
+ * @LastEditors: xiuquanxu
+ * @LastEditTime: 2021-01-13 16:14:27
+-->
+<html>
+    <meta charset="utf-8">
+    <body onload="main()">
+        <canvas width="400" height="400" id="webgl">
+            not suport canvas
+        </canvas>
+        <!-- gl.drawArrays()第一个参数 -->
+        <br/>
+        <p>gl.drawArrays()第一个参数</p>
+        <img src="../img/8.jpg" alt="">
+        <p>第一个参数画出后的点的结构</p>
+        <p>一定注意：gl.TRIANGLE_STRIP这个参数，第二个三角形是(v2,v1,v3)而不是(v1, v2, v3)这样目的是为了保持第二个三角形也是按照逆时针绘制：重点</p>
+        <img src="../img/9.jpg" alt="">
+    </body>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/webgl-debug.js"></script>
+    <script src="../lib/cuon-utils.js"></script>
+    <script src="./HelloTriangle.js"></script>
+</html>

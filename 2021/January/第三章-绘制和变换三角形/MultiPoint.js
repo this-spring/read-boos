@@ -3,7 +3,7 @@
  * @Company: kaochong
  * @Date: 2021-01-12 18:38:31
  * @LastEditors: xiuquanxu
- * @LastEditTime: 2021-01-12 21:21:18
+ * @LastEditTime: 2021-01-13 13:05:43
 */
 var VSHADER_SOURCE = `
     attribute vec4 a_Position;
@@ -68,7 +68,9 @@ function main() {
     }
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT);
-    gl.drawArrays(gl.POINTS, 0, n);
+    // gl.drawArrays(gl.POINTS, 0, n);
+    // 画点，从第几个开始画，画几个点
+    gl.drawArrays(gl.POINTS, 1, n - 1);
 }
 
 // 使用缓冲区向顶点着色器传入多个顶点的数据  
@@ -103,4 +105,16 @@ function main() {
 // 方法：get(index), set(index, value), set(array, offset)
 // length,BYTES_PER_ELEMENT
 
+// 4. gl.vertexAttribPointer(location, size, type, normalized, stride, offset)
+// https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/vertexAttribPointer
 
+// 5. 开启attribute变量（gl.enableVertexAttribArray()）
+// 为了让顶点着色器能够访问到缓冲区内的数据，我们需要用gl.enableCertexAttribArray()方法开启attribute变量
+// https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/enableVertexAttribArray
+// 开启后你就不能使用gl.vertexAttrib[1234]f()向他传入数据了，实际上你无法同时使用enableCertexAttribArray和vertexAttrib[1234]f这两个函数  
+
+// 6. drayArrays(mode, first, count)
+// mode: gl.POINTS,gl.LINES....
+// first:指定从哪个顶点开始绘制
+// 指定绘制需要的用到的多少个顶点
+// https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/drawArrays
