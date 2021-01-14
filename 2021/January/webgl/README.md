@@ -3,7 +3,7 @@
  * @Company: kaochong
  * @Date: 2021-01-11 11:46:47
  * @LastEditors: xiuquanxu
- * @LastEditTime: 2021-01-12 20:05:48
+ * @LastEditTime: 2021-01-14 19:50:23
 -->
 ## webgl的api  
 获取顶点着色器变量和设置顶点着色器变量  
@@ -33,3 +33,7 @@ gl.clearColor(0.0, 0.0, 0.0, 1.0);
 ``
 gl.color(gl.COLOR_BUFFER_BIG);
 ```
+
+## 自己联系  
+
+五子棋
