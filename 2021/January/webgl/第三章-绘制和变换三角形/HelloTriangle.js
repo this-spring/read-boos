@@ -3,7 +3,7 @@
  * @Company: kaochong
  * @Date: 2021-01-13 13:06:08
  * @LastEditors: xiuquanxu
- * @LastEditTime: 2021-01-13 16:03:20
+ * @LastEditTime: 2021-01-17 13:09:27
 */
 
 var VSHADER_SOURCE = `
@@ -44,9 +44,9 @@ function main() {
 function initVertexBuffer(gl) {
     // 三角形
     var vertices = new Float32Array([
-        0.0, 0.5,
-        -0.5, -0.5,
-        0.5, -0.5
+        0.0, 1.0,
+        -1.0, 0.0,
+        1.0, 0.0
     ]);
     // 正方形
     // var vertices = new Float32Array([
