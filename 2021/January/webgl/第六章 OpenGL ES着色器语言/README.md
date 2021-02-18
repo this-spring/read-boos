@@ -3,7 +3,7 @@
  * @Company: kaochong
  * @Date: 2021-01-21 22:06:31
  * @LastEditors: xiuquanxu
- * @LastEditTime: 2021-01-23 01:02:21
+ * @LastEditTime: 2021-01-25 12:51:50
 -->
 ## WebGL、GLSL ES、Open GL  
 WebGL并不支持GLSL ES1.00的所有特性。  
@@ -138,5 +138,4 @@ Attribute变量只能声明在顶点着色器中。Attribute变量只能出现�
 ## 精度限定字  
 
 重点  
-
-## 
+ 
