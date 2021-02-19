@@ -3,7 +3,7 @@
  * @Company: kaochong
  * @Date: 2021-01-11 12:13:54
  * @LastEditors: xiuquanxu
- * @LastEditTime: 2021-01-12 18:31:44
+ * @LastEditTime: 2021-02-18 23:21:29
 -->
 ## 学习webgl很简单  
 webgl技术继承自免费开源的opengl技术，可以说webgl就是web端的opengl。  
@@ -11,7 +11,10 @@ webgl技术继承自免费开源的opengl技术，可以说webgl就是web端的o
 ## webgl起源  
 <img src="../img/1.jpg">  
 
-openes是基着色器语言（GLSL）  
+opengles广泛应用于手机、计算机、游戏机等设备中，之所以比opengl流行的原因是，opengles去除了很多opengl陈旧的api的同时增加了很多新特性而且仍有足够能力绘制精美动画。
+
+openes是基于着色器语言（GLSL）  
+
 
 <img src="../img/2.jpg"/>  
 
