@@ -3,7 +3,7 @@
  * @Company: kaochong
  * @Date: 2021-01-12 12:29:31
  * @LastEditors: xiuquanxu
- * @LastEditTime: 2021-01-12 18:30:19
+ * @LastEditTime: 2021-02-22 18:58:14
 */
 // 注：gl_开头的都是变量
 var VSHADER_SOURCE = `
@@ -50,7 +50,15 @@ function main() {
         g_points.push(x);
         g_points.push(y);
         if (x >= 0 && y >= 0) {
+                    gl.clear(gl.COLOR_BUFFER_BIT);
+
             u_points.push([1.0, 0.0, 0.0, 1.0]);
+             // 片元着色器
+             gl.uniform4fv(u_FragColor, [1.0, 0.0, 0.0, 1.0]);
+             // 顶点着色器
+             gl.vertexAttrib2f(a_Position, x , y);
+             // 绘制点
+             gl.drawArrays(gl.POINTS, 0, 1);
         } else if (x < 0 && y >=0) {
             u_points.push([0.0, 1.0, 0.0, 1.0]);
         } else if (x <= 0 && y <= 0) {
@@ -58,10 +66,10 @@ function main() {
         } else {
             u_points.push([1.0, 1.0, 1.0, 1.0]);
         }
-
+        return;
         // 如果注释掉这个代码，每次点击后颜色缓冲区就被webgl重置为默认背景色(0.0,0.0,0.0,0.0)
         // 所以我们需要用gl.clear()来用指定的背景色清空
-        gl.clear(gl.COLOR_BUFFER_BIT);
+        // gl.clear(gl.COLOR_BUFFER_BIT);
         for (let i = 0, j = 0, len = g_points.length; i < len; i += 2, j ++) {
             // 片元着色器
             gl.uniform4fv(u_FragColor, u_points[j]);
