@@ -3,7 +3,7 @@
  * @Company: kaochong
  * @Date: 2021-03-09 23:24:25
  * @LastEditors: xiuquanxu
- * @LastEditTime: 2021-03-12 01:02:27
+ * @LastEditTime: 2021-03-16 23:00:45
 -->
 ## 光源类型  
 1. 平行光
@@ -63,3 +63,12 @@ cos0 = <光线方向>点乘于<法线方向>
 normalMatrix.setInverseOf(m) // 对应第一步求m矩阵的逆矩阵保存在nromalMatrix中
 normalMatrix.transpose(); // 对应第二步将求得的逆矩阵转置
 
+## 光的计算方式  
+
+肉眼看到的光 = 漫反射 + 环境反射   
+
+光源又分为：点光源、平行光、环境光  
+
+点光源和平行光产生了漫反射    
+
+环境光产生了环境反射  

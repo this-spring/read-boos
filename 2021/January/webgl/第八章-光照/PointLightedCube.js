@@ -11,12 +11,15 @@ var VSHADER_SOURCE =
   'uniform vec3 u_AmbientLight;\n' +  // Ambient light color
   'varying vec4 v_Color;\n' +
   'void main() {\n' +
+//   模型矩阵变换后的坐标
   '  gl_Position = u_MvpMatrix * a_Position;\n' +
+//   法向量归一化处理
      // Recalculate the normal based on the model matrix and make its length 1.
   '  vec3 normal = normalize(vec3(u_NormalMatrix * a_Normal));\n' +
      // Calculate world coordinate of vertex
+    //  计算模型矩阵为了后面由于旋转对法向量产生影响
   '  vec4 vertexPosition = u_ModelMatrix * a_Position;\n' +
-     // Calculate the light direction and make it 1.0 in length
+     // 计算光的方向
   '  vec3 lightDirection = normalize(u_LightPosition - vec3(vertexPosition));\n' +
      // The dot product of the light direction and the normal
   '  float nDotL = max(dot(lightDirection, normal), 0.0);\n' +
@@ -78,11 +81,11 @@ function main() {
     return;
   }
 
-  // Set the light color (white)
+  // 设置点光源颜色
   gl.uniform3f(u_LightColor, 1.0, 1.0, 1.0);
-  // Set the light direction (in the world coordinate)
+  // 设置点光源位置
   gl.uniform3f(u_LightPosition, 2.3, 4.0, 3.5);
-  // Set the ambient light
+  // 环境光
   gl.uniform3f(u_AmbientLight, 0.2, 0.2, 0.2);
 
   var modelMatrix = new Matrix4();  // Model matrix
