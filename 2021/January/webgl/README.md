@@ -3,37 +3,52 @@
  * @Company: kaochong
  * @Date: 2021-01-11 11:46:47
  * @LastEditors: xiuquanxu
- * @LastEditTime: 2021-01-14 19:50:23
+ * @LastEditTime: 2021-03-23 01:05:10
 -->
-## webgl的api  
-获取顶点着色器变量和设置顶点着色器变量  
-获取：  
-```
-attribute:var a_Position = gl.getAttribLocation(gl.program, 'name'); // 顶点着色器(数据rgba)
-uniform:var u_FragColor = gl.getUniformLocation(gl.progrem, 'name'); // 片元着色器（数据是xyzw（齐次坐标系））
-```
 
-设置:  
-```
-顶点着色器：gl.vertexAttrib4f(a_Position, v0, v1, v2, v3);
-片元着色器：gl.uniform4f(u_FragColor, v0, v1, v2, v3);
-```
+## 第二章  
 
-画点：  
-```
-gl.drawArrays(gl.POINTS, 0, n);
-```  
+### webgl的api  
 
-设置缓存区颜色:  
-```
-gl.clearColor(0.0, 0.0, 0.0, 1.0);
-```  
+mdn: https://developer.mozilla.org/zh-CN/docs/Web/API/WebGLRenderingContext/drawArrays
 
-填充颜色：  
-``
-gl.color(gl.COLOR_BUFFER_BIG);
-```
+### gl.drawArrays()  
 
-## 自己联系  
+### webgl坐标系（右手系）
 
+### gl.getAttribLocation(gl.program, 'a_Position')   
+找不到返回-1  
+
+### gl.vertexAttrib3f('a_Position', 0.0, 0.0, 0.0)
+
+1f、2f、3f....  
+
+gl.vertexAttrib3fv(position, new Float32Array([1.0, 2.0, 3.0]))
+
+虽然我们声明的是vec4但是我们传递的是3f这是因为webgl会自动帮我们补充一个1.0，对于齐次坐标系来说1.0加不加都可以，对于颜色来说1.0是不透明。  
+
+返回值无(void)
+
+### uniform变量  
+
+只有顶点着色器可以使用attribute变量，片元着色器只能使用uniform变量或者varying变量  
+
+### const u_Color = gl.getUniformLocation(gl.program, 'u_Color')  
+
+返回值，如果存在则返回一个特殊值，如果不存在则返回null  
+
+### gl.uniform4f(u_COlor, 1.0, 0.0, 0.0)
+
+1f、2f、3f...同attribute变量  
+uniform[1234][fi][v]()  
+
+返回值void
+
+
+
+
+
+
+
+### end
 五子棋
