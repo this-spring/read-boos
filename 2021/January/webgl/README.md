@@ -3,7 +3,7 @@
  * @Company: kaochong
  * @Date: 2021-01-11 11:46:47
  * @LastEditors: xiuquanxu
- * @LastEditTime: 2021-03-23 19:57:58
+ * @LastEditTime: 2021-03-25 23:26:11
 -->
 
 ## 第二章  
@@ -42,7 +42,7 @@ gl.vertexAttrib3fv(position, new Float32Array([1.0, 2.0, 3.0]))
 返回值，如果存在则返回一个特殊值，如果不存在则返回null  
 
 ### gl.uniform4f(u_COlor, 1.0, 0.0, 0.0)
-给uniform变量赋值
+给uniform变量赋∏值
 1f、2f、3f...同attribute变量  
 uniform[1234][fi][v]()  
 
@@ -222,3 +222,5 @@ var matrix = new Float32Array([
 ## 总结  
 1. 熟悉webgl各种API。获取Attribute和Unifrom变量然后进行赋值。以及掌握使用顶点着色器的缓冲区。
 2. 掌握了通过矩阵进行平移、旋转、变换操作。
+3. 使用时候注意各种异常处理包括，getAttribLocation时候返回-1处理。
+4. 通过平移等matrix编写shader即可实现平移等操作。
