@@ -461,7 +461,7 @@ Matrix4.prototype.setTranslate = function(x, y, z) {
 };
 
 /**
- * Multiply the matrix for translation from the right.
+ * Multiply the matrix for  n from the right.
  * @param x The X value of a translation.
  * @param y The Y value of a translation.
  * @param z The Z value of a translation.

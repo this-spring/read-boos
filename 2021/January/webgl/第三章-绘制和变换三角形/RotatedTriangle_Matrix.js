@@ -75,3 +75,4 @@ function initBuffer(gl) {
 // 英文：Matrix   [ˈmeɪtrɪks]
 // 给矩阵赋值：gl.uniforMatrix4fv(u_xformMatrix, false, xforMatrix)
 // https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/uniformMatrix
+

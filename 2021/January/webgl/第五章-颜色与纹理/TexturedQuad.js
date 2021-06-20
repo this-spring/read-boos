@@ -3,7 +3,7 @@
  * @Company: kaochong
  * @Date: 2021-01-18 14:48:06
  * @LastEditors: xiuquanxu
- * @LastEditTime: 2021-01-19 00:37:43
+ * @LastEditTime: 2021-03-31 18:55:52
 */
 var VSHADER_SOURCE = `
     attribute vec4 a_Position;
@@ -46,12 +46,24 @@ function main() {
 }
 
 function initVertexBuffers(gl) {
+    // var verticesTexCoords = new Float32Array([
+    //     -0.5, 0.5, 0.0, 1.0,
+    //     -0.5, -0.5, 0.0, 0.0,
+    //     0.5, 0.5, 1.0, 1.0,
+    //     0.5, -0.5, 1.0, 0.0,
+    // ]);
     var verticesTexCoords = new Float32Array([
-        -0.5, 0.5, 0.0, 1.0,
-        -0.5, -0.5, 0.0, 0.0,
-        0.5, 0.5, 1.0, 1.0,
-        0.5, -0.5, 1.0, 0.0,
+        -0.5, 0.5, -0.3, 1.7,
+        -0.5, -0.5, -0.3, -0.2,
+        0.5, 0.5, 1.7, 1.7,
+        0.5, -0.5, 1.7, -0.2,
     ]);
+    // var verticesTexCoords = new Float32Array([
+    //     -1, 1, 0.0, 1.0,
+    //     -1, -1, 0.0, 0.0,
+    //     1, 1, 1.0, 1.0,
+    //     1, -1, 1.0, 0.0,
+    // ]);
     var n = 4;
     var vertexTexCoordBuffer = gl.createBuffer();
     if (!vertexTexCoordBuffer) {
