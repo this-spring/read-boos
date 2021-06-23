@@ -1,3 +1,0 @@
-/Users/xuxiuquan/mygithub/read-boos/2021/May/opengl/第一章-OpenGL概述/build/CMakeFiles/rebuild_cache.dir
-/Users/xuxiuquan/mygithub/read-boos/2021/May/opengl/第一章-OpenGL概述/build/CMakeFiles/edit_cache.dir
-/Users/xuxiuquan/mygithub/read-boos/2021/May/opengl/第一章-OpenGL概述/build/CMakeFiles/test_opengl.dir
