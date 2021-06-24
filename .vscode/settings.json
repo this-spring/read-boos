@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "unistd.h": "c",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "algorithm": "cpp",
+        "memory": "cpp"
     }
 }
