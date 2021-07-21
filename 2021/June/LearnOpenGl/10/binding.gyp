@@ -9,7 +9,7 @@
         "-fno-rtti",
         "-fno-exceptions"
       ],
-      "sources": [ "render.cpp" ],
+      "sources": ["render.cpp", "wrapper-render.cpp"],
       "include_dirs": [
         "<!@(node -p \"require('node-addon-api').include\")",
         "../include/",

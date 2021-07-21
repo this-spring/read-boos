@@ -13,29 +13,10 @@
 #include FT_FREETYPE_H
 
 #include <opengl/shader.h>
-#include <napi.h>
-Shader* shadert=nullptr; //静态成员需要先初始化
-GLFWwindow* window = nullptr;
+#include "render.h"
 
-class DrawObj
-{
-    public:
-        std::string str;
-        float x;
-        float y;
-        float scale;
-        glm::vec3 color;
-        DrawObj(std::string str, float x, float y, float scale, glm::vec3 color) {
-            this->str = str;
-            this->x = x;
-            this->y = y;
-            this->scale = scale;
-            this->color = color;
-        }
-            
-};
-// DrawObj texts[10] = [(new DrawObj("", 0, 0, 0, glm::ve3(0,0,0)))];
-int count = 0;
+Shader* shadert=nullptr; //静态成员需要先初始化
+
 std::string str = "1233";
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -57,7 +38,7 @@ struct Character {
 std::map<GLchar, Character> Characters;
 unsigned int VAO, VBO;
 
-int test()
+int initRender()
 {
     // glfw: initialize and configure
     // ------------------------------
@@ -72,7 +53,7 @@ int test()
 
     // glfw window creation
     // --------------------
-    window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -191,13 +172,10 @@ int test()
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
-    // texts[count] = DrawObj("LearnOpenGL.com", 540.0f, 570.0f, 0.5f, glm::vec3(0.3, 0.7f, 0.9f));
-    count += 1;
     // render loop
     // -----------
-    // while (!glfwWindowShouldClose(window))
-    // {
-        // input
+    while (!glfwWindowShouldClose(window))
+    {
         // -----
         processInput(window);
 
@@ -205,12 +183,6 @@ int test()
         // ------
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-        // for (int i = 0; i < count; i += 1) {
-        //     // DrawObj d = texts[i];
-        //     std::string str = i;
-        //     RenderText(*shadert, str, 10, 10 + i * 10, 1, glm::vec3(0.5, 0.8f, 0.2f));
-        // }
-
         RenderText(shader, str, 25.0f, 25.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
         // RenderText(shader, "我是", 0.0f, 0.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
         // RenderText(*shadert, "LearnOpenGL.com", 540.0f, 570.0f, 0.5f, glm::vec3(0.3, 0.7f, 0.9f));
@@ -219,9 +191,10 @@ int test()
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
         glfwPollEvents();
-    // }
+        pollHtml();
+    }
 
-    // glfwTerminate();
+    glfwTerminate();
     return 0;
 }
 
@@ -298,48 +271,3 @@ void RenderText(Shader &shader, std::string text, float x, float y, float scale,
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-Napi::Number Add(const Napi::CallbackInfo& info) {
-    Napi::Env env = info.Env();
-    // std::string a = info[0].As<Napi::String>().Utf8Value();
-    // str = a;
-    test();
-        //    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        // glClear(GL_COLOR_BUFFER_BIT);
-        // RenderText(*shadert, "This is sample text", 25.0f, 25.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
-
-    return Napi::Number::New(env, 1);
-}
-// addon.OpenglRenderText('this is xuxiuquan', 5.0, 5.0, 1, 0.5, 0.5, 0.5);
-
-Napi::Number OpenglRenderText(const Napi::CallbackInfo& info) {
-    // RenderText(*shadert, "This is sample text", 25.0f, 25.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
-    std::cout << "OpenglRenderText" << std::endl;
-    Napi::Env env = info.Env();
-        return Napi::Number::New(env, 1);
-    std::string a = info[0].As<Napi::String>().Utf8Value();
-    double x = info[1].As<Napi::Number>().DoubleValue();
-    double y = info[2].As<Napi::Number>().DoubleValue();
-    double scale = info[3].As<Napi::Number>().DoubleValue();
-    double r = info[4].As<Napi::Number>().DoubleValue();
-    double g = info[5].As<Napi::Number>().DoubleValue();
-    double b = info[6].As<Napi::Number>().DoubleValue();
-    // void RenderText(Shader &shader, std::string text, float x, float y, float scale, glm::vec3 color);
-    std::cout << "str" << str << " x " << x << std::endl;
-    str = "OpenglRenderText";
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-    RenderText(*shadert, str, 25.0f, 25.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
-
-    return Napi::Number::New(env, 1);
-}
-
-Napi::Object Init(Napi::Env env, Napi::Object exports) {
-    // add函数挂载到exports上
-    exports.Set(Napi::String::New(env, "add"), Napi::Function::New(env, Add));
-    exports.Set(Napi::String::New(env, "openglRenderText"), Napi::Function::New(env, OpenglRenderText));
-    // return Napi::Function::New(env, RunCallback);
-    return exports;
-}
-
-// 固定的宏使用
-NODE_API_MODULE(addon, Init);

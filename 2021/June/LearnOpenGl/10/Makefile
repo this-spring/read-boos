@@ -10,6 +10,7 @@ CXX=g++
 CXXFLAGS = -I ../include/  \
 		-I /usr/local/include/  \
 		-I /usr/include/ \
+		-I ./ \
 		-L /usr/lib/ \
 		-L /usr/local/Cellar/glew/2.1.0_1/lib/  \
 		-L ../lib/  \
@@ -24,10 +25,12 @@ CXXFLAGS = -I ../include/  \
 CXXFLAGS+=-framework OpenGL
 
 src=render.cpp
+src1=wrapper-native.cpp
 target=app
 
-${target}: ${src}
-	${CXX} ${CXXFLAGS} $< -o $@
+
+${target}:
+	${CXX} ${src} ${src1} ${CXXFLAGS} $< -o $@
 
 clean:
 	rm -rf ${target}
